@@ -34,7 +34,8 @@ else
   node.set['firewall']['state'] = new_state
 
   #drop rules and re-enable
-  execute "ufw --force reset"
+  # temporary fix since --force reset is not available on debian 0.29 version
+  execute "ufw --force reset" unless node.platform == "debian"
 
   firewall "ufw" do
     action :enable
